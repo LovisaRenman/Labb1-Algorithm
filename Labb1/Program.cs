@@ -1,5 +1,5 @@
 ﻿
-using System;
+
 
 bool boolean = true;
 string inmatat;
@@ -64,8 +64,39 @@ for (int i = 0; i <= inmatat.Length; i++)
                     boolean = false;
                 }
             }
-        Console.WriteLine(delString[elementDelString]);
         elementDelString++;
         }        
     }
 }
+
+for (int i = 0; i <300; i++)
+{
+    if (inmatat.Contains(delString[i]))
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        int indexDelstringStart = inmatat.IndexOf(delString[i]);
+        Console.Write(inmatat.Substring(0, indexDelstringStart));
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(delString[i]);
+        Console.ForegroundColor = ConsoleColor.White;
+
+        string raknaChar = delString[i];
+        int indexDelStringSlut = 0;
+        foreach (char item in raknaChar)
+        {
+            indexDelStringSlut++;
+        }
+        indexDelStringSlut += indexDelstringStart;
+
+        Console.Write(inmatat.Substring(indexDelStringSlut));
+        Console.WriteLine();
+    }
+}
+
+ulong summanAvAllaDelString = 1;
+foreach (var item in delString)
+{
+    summanAvAllaDelString += Convert.ToUInt64(item);
+}
+Console.WriteLine($"Summan av alla delsträngar är: {summanAvAllaDelString}");
