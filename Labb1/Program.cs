@@ -1,116 +1,83 @@
-﻿
-
-
-bool boolean = true;
+﻿bool substringExist = true;
 string inmatat;
 
 do
 {
-    inmatat = String.Empty;
     Console.WriteLine("Mata in vilken text du vill");
-    try
+
+    inmatat = Console.ReadLine();
+    substringExist = true;
+    if (inmatat == String.Empty)
     {
-        inmatat = Console.ReadLine();
-        boolean = true;
+        substringExist = false;
+        Console.WriteLine("Tryck en tagent för att försöka igen");
+        Console.ReadLine();
+        Console.Clear();
     }
-    catch
-    {
-        if (inmatat == String.Empty)
-        {
-            boolean = false;
-            Console.WriteLine("Försök igen");
-            Thread.Sleep(5000);
-            Console.Clear();
-        }
-    }
-} while (!boolean);
+} while (!substringExist);
+Console.Clear();
 
-string[] delString = new string[10000];
-char[] alltInmatatSomChar = new char[10000];
-int antalTecken = 0;
-int elementDelString = 0;
+string delstring = "";
+ulong summaAvDelstring = 0;
 
-foreach (char tecken in inmatat)
+for (int i = 0; i < inmatat.Length; i++)
 {
-    alltInmatatSomChar[antalTecken] = tecken;
-    antalTecken++;
-}
-
-for (int i = 0; i <= inmatat.Length; i++)
-{
-    if (char.IsDigit(alltInmatatSomChar[i]))
+    if (char.IsDigit(inmatat[i]) )
     {
         for (int j = 1; j < inmatat.Length; j++)
         {
-            if (alltInmatatSomChar[i] == alltInmatatSomChar[i+j] && i + j < inmatat.Length) 
+            if (i + j < inmatat.Length && inmatat[i] == inmatat[i+j]) 
             {
-                boolean = true;
+                substringExist = true;
                 j = inmatat.Length + 1;
             }
-            else if (!char.IsDigit(alltInmatatSomChar[i + j]))
+            else if ( i + j < inmatat.Length && !char.IsDigit(inmatat[i + j]))
             {
-                boolean = false;
+                substringExist = false;
                 j = inmatat.Length;
             }
-            else boolean = false;
+            else substringExist = false;
         }
-
-        while (boolean)
+        while (substringExist)
         {
-            delString[elementDelString] += Convert.ToString(alltInmatatSomChar[i]);
+            delstring += Convert.ToString(inmatat[i]);
             for (int j = 1; j < inmatat.Length; j++)
             {
-                if (alltInmatatSomChar[i] != alltInmatatSomChar[i + j] && char.IsDigit(alltInmatatSomChar[i + j]))
+                if (inmatat[i] != inmatat[i + j] && char.IsDigit(inmatat[i + j]))
                 {
-                    delString[elementDelString] += Convert.ToString(alltInmatatSomChar[i + j]);
+                    delstring += Convert.ToString(inmatat[i + j]);
                 }
-                else if (alltInmatatSomChar[i] == alltInmatatSomChar[i + j])
+                else if (inmatat[i] == inmatat[i + j])
                 {
-                    delString[elementDelString] += Convert.ToString(alltInmatatSomChar[i + j]);
+                    delstring += Convert.ToString(inmatat[i + j]);
                     j = inmatat.Length;
-                    boolean = false;
+                    substringExist = false;
                 }
             }
-        elementDelString++;
+            if (inmatat.Contains(delstring))
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                int indexDelstringStart = inmatat.IndexOf(delstring);
+                Console.Write(inmatat.Substring(0, indexDelstringStart));
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(delstring);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                int indexDelStringSlut = 0;
+                foreach (char item in delstring)
+                {
+                    indexDelStringSlut++;
+                }
+                indexDelStringSlut += indexDelstringStart;
+
+                Console.Write(inmatat.Substring(indexDelStringSlut));
+                Console.WriteLine();
+                summaAvDelstring += ulong.Parse(delstring);
+                delstring = "";
+            }
         }        
     }
 }
-
-for (int i = 0; i <300; i++)
-{
-    try
-    {
-        if (inmatat.Contains(delString[i]))
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            int indexDelstringStart = inmatat.IndexOf(delString[i]);
-            Console.Write(inmatat.Substring(0, indexDelstringStart));
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(delString[i]);
-            Console.ForegroundColor = ConsoleColor.White;
-
-            string raknaChar = delString[i];
-            int indexDelStringSlut = 0;
-            foreach (char item in raknaChar)
-            {
-                indexDelStringSlut++;
-            }
-            indexDelStringSlut += indexDelstringStart;
-
-            Console.Write(inmatat.Substring(indexDelStringSlut));
-            Console.WriteLine();
-        }
-    }
-    catch
-    {
-
-    }
-}
-
-ulong summanAvAllaDelString = 1;
-foreach (var item in delString)
-{
-    summanAvAllaDelString += Convert.ToUInt64(item);
-}
-Console.WriteLine($"Summan av alla delsträngar är: {summanAvAllaDelString}");
+Console.WriteLine();
+Console.WriteLine($"Summan av alla delsträngar är: {summaAvDelstring}");
