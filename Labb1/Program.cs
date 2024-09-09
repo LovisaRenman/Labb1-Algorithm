@@ -6,16 +6,23 @@ string inmatat;
 
 do
 {
+    inmatat = String.Empty;
     Console.WriteLine("Mata in vilken text du vill");
-    inmatat = Console.ReadLine();
-    if (inmatat == null)
+    try
     {
-        boolean = false;
-        Console.WriteLine("Försök igen");
-        Thread.Sleep(5000);
-        Console.Clear();
+        inmatat = Console.ReadLine();
+        boolean = true;
     }
-    else boolean = true;
+    catch
+    {
+        if (inmatat == String.Empty)
+        {
+            boolean = false;
+            Console.WriteLine("Försök igen");
+            Thread.Sleep(5000);
+            Console.Clear();
+        }
+    }
 } while (!boolean);
 
 string[] delString = new string[10000];
@@ -71,26 +78,33 @@ for (int i = 0; i <= inmatat.Length; i++)
 
 for (int i = 0; i <300; i++)
 {
-    if (inmatat.Contains(delString[i]))
+    try
     {
-        Console.ForegroundColor = ConsoleColor.White;
-        int indexDelstringStart = inmatat.IndexOf(delString[i]);
-        Console.Write(inmatat.Substring(0, indexDelstringStart));
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(delString[i]);
-        Console.ForegroundColor = ConsoleColor.White;
-
-        string raknaChar = delString[i];
-        int indexDelStringSlut = 0;
-        foreach (char item in raknaChar)
+        if (inmatat.Contains(delString[i]))
         {
-            indexDelStringSlut++;
-        }
-        indexDelStringSlut += indexDelstringStart;
+            Console.ForegroundColor = ConsoleColor.White;
+            int indexDelstringStart = inmatat.IndexOf(delString[i]);
+            Console.Write(inmatat.Substring(0, indexDelstringStart));
 
-        Console.Write(inmatat.Substring(indexDelStringSlut));
-        Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(delString[i]);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            string raknaChar = delString[i];
+            int indexDelStringSlut = 0;
+            foreach (char item in raknaChar)
+            {
+                indexDelStringSlut++;
+            }
+            indexDelStringSlut += indexDelstringStart;
+
+            Console.Write(inmatat.Substring(indexDelStringSlut));
+            Console.WriteLine();
+        }
+    }
+    catch
+    {
+
     }
 }
 
