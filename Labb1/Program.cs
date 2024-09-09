@@ -10,7 +10,7 @@ do
     if (inmatat == String.Empty)
     {
         substringExist = false;
-        Console.WriteLine("Tryck en tagent för att försöka igen");
+        Console.WriteLine("Tryck på en tagent för att försöka igen");
         Console.ReadLine();
         Console.Clear();
     }
@@ -22,7 +22,7 @@ ulong summaAvDelstring = 0;
 
 for (int i = 0; i < inmatat.Length; i++)
 {
-    if (char.IsDigit(inmatat[i]) )
+    if (char.IsDigit(inmatat[i]))
     {
         for (int j = 1; j < inmatat.Length; j++)
         {
@@ -76,7 +76,7 @@ for (int i = 0; i < inmatat.Length; i++)
                 summaAvDelstring += ulong.Parse(delstring);
                 delstring = "";
             }
-        }        
+        }
     }
 }
 Console.WriteLine();
